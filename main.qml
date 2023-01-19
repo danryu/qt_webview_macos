@@ -1,9 +1,7 @@
-
 import QtQuick
 import QtQuick.Controls
 import QtWebView
-import QtQuick.Layouts
-
+import QtWebEngine
 
 ApplicationWindow {
     visible: true
@@ -11,13 +9,16 @@ ApplicationWindow {
     height: 600
     title: webView.title
 
-    WebView {
+    WebEngineView {
         id: webView
         anchors.fill: parent
         url: initialUrl
         onLoadingChanged: function(loadRequest) {
             if (loadRequest.errorString)
                 console.error(loadRequest.errorString);
+        }
+        onFeaturePermissionRequested: {
+            grantFeaturePermission(securityOrigin, feature, true);
         }
     }
 }
